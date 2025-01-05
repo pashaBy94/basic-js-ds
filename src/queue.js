@@ -26,12 +26,10 @@ class Queue {
   enqueue(value) {
     const node = new ListNode(value);
     if (this.head) {
-      this.tile.next = node;
-      this.tile = node;
+      this.tile.next = this.tile = node;
     } else {
       this.head = node;
-      this.head.next = node;
-      this.tile = node;
+      this.head.next = this.tile = node;
     }
     this.length += 1;
   }

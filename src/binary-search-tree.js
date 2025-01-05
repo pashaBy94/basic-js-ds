@@ -19,19 +19,16 @@ class BinarySearchTree {
     const currentObj = arguments[1] || this.head;
     const node = new Node(data);
     if (!this.head) {
-      this.head = node;
-      return;
+      return (this.head = node);
     }
-    if (data < currentObj.data) {
-      if (currentObj.left) this.add(data, currentObj.left);
-      else currentObj.left = node;
-      return;
-    }
-    if (data > currentObj.data) {
-      if (currentObj.right) this.add(data, currentObj.right);
-      else currentObj.right = node;
-      return;
-    }
+    if (data < currentObj.data)
+      return currentObj.left
+        ? this.add(data, currentObj.left)
+        : (currentObj.left = node);
+    else
+      return currentObj.right
+        ? this.add(data, currentObj.right)
+        : (currentObj.right = node);
   }
 
   has(data) {
@@ -45,7 +42,7 @@ class BinarySearchTree {
     }
     if (data < currentObj?.data) {
       return currentObj.left ? this.find(data, currentObj?.left) : null;
-    } else if (data > currentObj?.data) {
+    } else {
       return currentObj?.right ? this.find(data, currentObj?.right) : null;
     }
   }
@@ -61,7 +58,6 @@ class BinarySearchTree {
       if (!currentObj.left && !currentObj.right) return null;
       if (!currentObj.left) return currentObj.right;
       if (!currentObj.right) return currentObj.left;
-
       currentObj.data = this.min(currentObj.right);
       currentObj.right = this.remove(currentObj.data, currentObj.right);
     }
@@ -69,15 +65,13 @@ class BinarySearchTree {
   }
 
   min() {
-    const val = arguments[0] === undefined ? this.head : arguments[0];
-    if (!val) return null;
-    else return val.left === null ? val.data : this.min(val.left);
+    const val = arguments[0] || this.head;
+    return val ? (val.left === null ? val.data : this.min(val.left)) : null;
   }
 
   max() {
-    const val = arguments[0] === undefined ? this.head : arguments[0];
-    if (!val) return null;
-    else return val.right === null ? val.data : this.max(val.right);
+    const val = arguments[0] || this.head;
+    return val ? (val.right === null ? val.data : this.max(val.right)) : null;
   }
 }
 module.exports = {
